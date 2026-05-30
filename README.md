@@ -35,7 +35,11 @@ pip install -r requirements.txt
 ollama pull mistral
 TAVILY_API_KEY=tvly-your_key_here
 python run.py
+python evaluate.py
 docker build -t research-agent .
 
 docker run -it research-agent
+
+
+
 Final response: 26910
