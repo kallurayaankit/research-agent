@@ -1,9 +1,10 @@
 langgraph
 langchain
+langchain-ollama
+langchain-core
 langchain-community
 chromadb
 sqlalchemy
 tavily-python
 pydantic
 python-dotenv
-ollama

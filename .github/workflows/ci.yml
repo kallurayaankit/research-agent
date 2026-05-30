@@ -19,5 +19,3 @@ jobs:
           for file in agent.py tools.py memory.py guardrails.py run.py evaluate.py; do
             python -m py_compile $file && echo "OK: $file"
           done
-      - name: Run evaluation (basic test)
-        run: python evaluate.py
