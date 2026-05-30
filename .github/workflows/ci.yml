@@ -1,0 +1,23 @@
+name: Validate Agent Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Check Python syntax
+        run: |
+          for file in agent.py tools.py memory.py guardrails.py run.py evaluate.py; do
+            python -m py_compile $file && echo "OK: $file"
+          done
+      - name: Run evaluation (basic test)
+        run: python evaluate.py
