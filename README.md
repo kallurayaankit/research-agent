@@ -32,3 +32,10 @@ An autonomous AI agent that uses a local LLM (Mistral via Ollama) to decide when
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+ollama pull mistral
+TAVILY_API_KEY=tvly-your_key_here
+python run.py
+docker build -t research-agent .
+
+docker run -it research-agent
+Final response: 26910
