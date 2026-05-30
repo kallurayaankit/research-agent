@@ -1,0 +1,9 @@
+langgraph
+langchain
+langchain-community
+chromadb
+sqlalchemy
+tavily-python
+pydantic
+python-dotenv
+ollama

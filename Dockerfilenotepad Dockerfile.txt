@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+WORKDIR /app
+RUN apt-get update && apt-get install -y curl
+# Ollama isn't needed if you use the cloud version, but for local you'd need it.
+# We'll just copy the code.
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD ["python", "run.py"]
