@@ -18,3 +18,17 @@ An autonomous AI agent that uses a local LLM (Mistral via Ollama) to decide when
 ---
 
 ## 📁 Project Structure
+
+---
+
+## ⚡ Quick Start (Local)
+
+### 1. Prerequisites
+- [Ollama](https://ollama.com) installed and running.
+- Python 3.12 and a virtual environment.
+
+### 2. Install dependencies
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
