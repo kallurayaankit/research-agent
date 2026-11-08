@@ -1,0 +1,12 @@
+{
+  "name": "b-ram",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"build": "node scripts/build.mjs"},
+  "dependencies": {
+    "@huggingface/transformers": "4.3.2",
+    "pdfjs-dist": "6.5.438"
+  },
+  "devDependencies": {"esbuild": "0.28.2"}
+}
