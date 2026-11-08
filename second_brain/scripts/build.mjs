@@ -6,13 +6,15 @@ const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'dist');
 await rm(out,{recursive:true,force:true});await mkdir(path.join(out,'vendor'),{recursive:true});
 for(const name of ['style.css','app.js'])await cp(path.join(root,'static',name),path.join(out,name));
 for(const name of ['web-entry.js','local-store.js','browser.css','manifest.webmanifest','icon.svg'])await cp(path.join(root,'web',name),path.join(out,name));
-await build({entryPoints:[path.join(root,'web/embeddings.js')],outfile:path.join(out,'embeddings.js'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,legalComments:'linked'});
+// Bundle only the tokenizer and ONNX runtime used by MiniLM, not a registry
+// of unrelated model architectures. Keep vendor code readable for auditing.
+await build({entryPoints:[path.join(root,'web/embeddings.js')],outfile:path.join(out,'embeddings.js'),bundle:true,format:'esm',platform:'browser',target:'es2022',minify:false,legalComments:'linked'});
 const onnx=path.join(root,'node_modules/onnxruntime-web/dist');
-for(const name of ['ort-wasm-simd-threaded.asyncify.mjs','ort-wasm-simd-threaded.asyncify.wasm'])await cp(path.join(onnx,name),path.join(out,'vendor',name));
+for(const name of ['ort-wasm-simd-threaded.mjs','ort-wasm-simd-threaded.wasm'])await cp(path.join(onnx,name),path.join(out,'vendor',name));
 for(const name of ['pdf.mjs','pdf.worker.mjs'])await cp(path.join(root,'node_modules/pdfjs-dist/build',name),path.join(out,'vendor',name));
 for(const name of ['cmaps','standard_fonts','wasm'])await cp(path.join(root,'node_modules/pdfjs-dist',name),path.join(out,'vendor',name),{recursive:true});
 await cp(path.join(root,'node_modules/pdfjs-dist/LICENSE'),path.join(out,'vendor/PDFJS-LICENSE'));
-await cp(path.join(root,'node_modules/@huggingface/transformers/LICENSE'),path.join(out,'TRANSFORMERS-LICENSE'));
+await cp(path.join(root,'node_modules/@huggingface/tokenizers/LICENSE'),path.join(out,'TOKENIZERS-LICENSE'));
 await cp(path.join(root,'web/licenses/ONNXRUNTIME-LICENSE'),path.join(out,'vendor/ONNXRUNTIME-LICENSE'));
 let html=await readFile(path.join(root,'static/index.html'),'utf8');
 html=html.replace('href="/static/style.css"','href="./style.css"').replace('<script src="/static/app.js" defer></script>','<script type="module" src="./web-entry.js"></script>').replace('href="/"','href="./"');

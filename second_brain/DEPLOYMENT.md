@@ -44,7 +44,7 @@ The same `dist/` folder can be uploaded to a free static hosting project. There 
 | --- | --- | --- |
 | Offline app | Installable web manifest and versioned service-worker cache | Open once online; browser controls installation. Models must be downloaded before offline AI. |
 | Private local library | IndexedDB documents, attachments, vectors, and review state | Per browser profile and website origin. Clearing site data deletes it. Export backups. |
-| Local semantic search | Quantized MiniLM with Transformers.js and ONNX WebAssembly | Opt-in model download from Hugging Face; CPU/memory and storage required. |
+| Local semantic search | Quantized MiniLM with Hugging Face Tokenizers and ONNX WebAssembly | Opt-in model download from Hugging Face; CPU/memory and storage required. |
 | Hybrid retrieval | BM25-style keyword scores + reciprocal-rank fusion of vector matches | Exact scans suit personal libraries; large collections need a vector index. |
 | Connections map | Explicit `[[Note title]]` links, shared tags, and semantic matches | Shows 60 recently updated items; semantic matches require an index. |
 | Browser AI | Feature-detected experimental Prompt API; cited retrieval context | Browser/hardware support varies. No general availability claim. Without a model, answers show clearly labelled source excerpts. |
@@ -64,11 +64,13 @@ python tests/public_browser_smoke.py
 
 The public test covers a subdirectory deployment, PDF text extraction, captures, search, graph links, source excerpts, backup/restore, semantic ranking with deterministic mock embeddings, actual offline create/reload, mobile layout, and isolation between browser profiles. Mock vectors do not validate downloaded model quality; live browser-native generation requires a supported device.
 
+`python tests/embedding_runtime_smoke.py` additionally executes the real browser tokenizer and ONNX WebAssembly runtime with the tiny synthetic encoder in `tests/fixtures/tiny_encoder.onnx`. It validates padded batching, pooling, and normalization without external downloads. The fixture is an integration test, not a language model. Live MiniLM downloads and native browser-AI output remain separate checks.
+
 ## Sources checked for this release
 
 - [GitHub Pages overview](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages): static hosting and `github.io` addresses.
 - [GitHub's Pages plan availability source](https://github.com/github/docs/blob/main/data/reusables/gated-features/pages.md): free hosting for public repositories.
 - [Prompt API explainer](https://github.com/webmachinelearning/prompt-api): experimental availability, feature detection, session lifecycle, and current limitations.
-- [Transformers.js](https://github.com/huggingface/transformers.js): browser model inference; this release pins the npm dependencies in `package-lock.json`.
+- [Hugging Face Tokenizers](https://github.com/huggingface/tokenizers.js) and [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/): browser tokenization and inference; this release pins the npm dependencies in `package-lock.json`.
 
 These are practical current additions, not features assumed to work merely because the year is 2026. Automatic encrypted sync, OCR, multimodal retrieval, and passkeys would require additional design and validation.
