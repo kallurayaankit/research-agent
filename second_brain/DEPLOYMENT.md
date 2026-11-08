@@ -36,6 +36,18 @@ Git push access and GitHub API access are separate. If API access is blocked, up
 
 ## Other free static hosts
 
+### Vercel (ready-to-deploy)
+
+[Deploy B-Ram on Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkallurayaankit%2Fresearch-agent%2Ftree%2Fbram-site&project-name=b-ram&repository-name=b-ram)
+
+Sign in to your Vercel account, use the free Hobby plan for this personal project, and deploy. The link uses the already-built `bram-site` branch. Its `vercel.json` specifies a static site with no build command or backend functions. No environment variables or AI API keys are needed. Vercel assigns an available `*.vercel.app` address; `b-ram.vercel.app` is not reserved or guaranteed.
+
+Alternatively, import the `bram-app` source branch with **Root Directory: `second_brain`**. Its `vercel.json` runs `npm ci`, builds with `npm run build`, and publishes `dist`. Choose Node.js 24 in Vercel's project settings. Both deployment paths add security headers and prevent stale service-worker scripts.
+
+Signing in or providing an existing Vercel deployment credential is required to create a project. A deploy link and pushed configuration do not establish that a live Vercel deployment exists.
+
+Your Vercel domain has separate browser storage from your GitHub Pages domain. **Export a backup on the old site and restore it on the new site** to transfer your library. Keep using one stable production domain; each preview domain has a separate library.
+
 The same `dist/` folder can be uploaded to a free static hosting project. There are no server functions or build-time secrets. Use HTTPS so IndexedDB, service workers, and browser AI have a secure context. Provider account authentication and their current plan limits still apply.
 
 ## Advanced features and their limits

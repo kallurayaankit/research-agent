@@ -32,4 +32,8 @@ self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(ev
 event.respondWith(caches.open(CACHE).then(async cache=>{const cached=await cache.match(event.request);if(cached)return cached;try{const response=await fetch(event.request);if(response.ok)await cache.put(event.request,response.clone());return response;}catch(error){if(event.request.mode==='navigate')return cache.match('./index.html');throw error;}}));});`;
 await writeFile(path.join(out,'sw.js'),sw);
 await writeFile(path.join(out,'_headers'),`/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n  X-Frame-Options: DENY\n`);
+// The release branch is already built: Vercel must serve it as static files.
+// This prevents detection of the separate Python application in source builds.
+const vercel=JSON.parse(await readFile(path.join(root,'vercel.json'),'utf8'));
+await writeFile(path.join(out,'vercel.json'),JSON.stringify({$schema:vercel.$schema,framework:null,buildCommand:null,installCommand:null,outputDirectory:'.',headers:vercel.headers},null,2)+'\n');
 console.log(`Built private browser edition in ${out}; revision ${revision}`);
